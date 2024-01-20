@@ -5,7 +5,8 @@ import time
 import MqttPublisher
 
 class MFRC522Reader:
-    def __init__(self,mqtt_publisher):
+    def __init__(self,mqtt_publisher,id):
+        self.id = id
         self.MIFAREReader = MFRC522()
         self.continue_reading = True
         self.mqtt_publisher = mqtt_publisher
@@ -89,7 +90,8 @@ class MFRC522Reader:
             formatted_uid = "{}-{}-{}-{}".format(uid_block_1, uid_block_2, uid_block_3, uid_block_4)
 
             # used to publish the id of the card to message queue(sent to brocker)
-            self.mqtt_publisher.publish_measurement(formatted_uid)
+            # formatted_uid represents the measurement
+            self.mqtt_publisher.publish_measurement(measurement = formatted_uid,id = id)
             
             # This is the default key for authentication
             #key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]

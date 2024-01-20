@@ -5,12 +5,12 @@ class MqttSubscriber:
 
     BROKER_HOST="io.adafruit.com" # address of server raspberry pi					
     PORT=1883
-    USER="r0gue" # user ! change when security will be set up
-    KEY="aio_DwSR74zv1N0QoTNIbSTjTFZohHq7" # key ! change when security will be set up
+    #USER="r0gue" # user ! change when security will be set up
+    #KEY="aio_DwSR74zv1N0QoTNIbSTjTFZohHq7" # key ! change when security will be set up
 
     # on_receive message is a method which will be invoked when the message is received
     def __init__(self, topic, client_name,on_receive_message):
-        self.topic = f'{self.USER}/feeds/{topic}' # TODO: change topic accordingly
+        self.topic = topic # TODO: change topic accordingly
         self.client_name = client_name
         self.client = mqtt.Client(client_name)
         self.client.on_message = self.on_message
@@ -21,7 +21,6 @@ class MqttSubscriber:
     def on_message(self,client, userdata, msg):
         now = datetime.now().time()
         payload = msg.payload.decode("utf-8")
-        
         
         print("Msg received {}, topic: {} value: {}".format(now, msg.topic, payload))
         self.on_receive_message(msg) # pass message not payload so I can extract more information and make it more general
@@ -36,7 +35,8 @@ class MqttSubscriber:
             print("Bad connection Returned code=",rc)
 
     def connect(self):
-        self.client.username_pw_set(self.USER, password=self.KEY)
+        # TODO : uncomment when set security
+        #self.client.username_pw_set(self.USER, password=self.KEY)
         self.client.connect(self.BROKER_HOST, port=self.PORT,keepalive=60)
         self.client.loop_start()
     

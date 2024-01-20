@@ -11,13 +11,12 @@ import led_service
 def main():
 
     # specifies where to publish
-    room_1_card_sensor_publisher = MqttPublisher("sensors","room1_sensor",1) # 1 specifies the room number
+    room_1_card_sensor_publisher = MqttPublisher("sensors","room1_sensor") 
     
     room_1_card_sensor_publisher.connect()
 
-
     # specifies how to read the data from the card and publishes the result
-    rfid_card_service_room_1 = rfid_card_service.MFRC522Reader(room_1_card_sensor_publisher)
+    rfid_card_service_room_1 = rfid_card_service.MFRC522Reader(room_1_card_sensor_publisher,1)
 
     # each sensor has separate mq(subscribe to accept messages)
     # but all sensors publish to the same message queue
@@ -28,7 +27,7 @@ def main():
 
     try:
         while True:
-            rfid_card_service.read_card()
+            rfid_card_service_room_1.read_card()
             time.sleep(0.5)
            
     except KeyboardInterrupt:

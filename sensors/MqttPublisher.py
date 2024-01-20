@@ -1,3 +1,4 @@
+import json
 import paho.mqtt.client as mqtt
 import time
 
@@ -5,12 +6,11 @@ class MqttPublisher:
 
     BROKER_HOST="io.adafruit.com" # ip address of another raspberry pi				
     PORT=1883
-    user="r0gue" # user  ! change when security will be set up
-    key="aio_DwSR74zv1N0QoTNIbSTjTFZohHq7" # key ! change when security will be set up
+    #user="r0gue" # user  ! change when security will be set up
+    #key="aio_DwSR74zv1N0QoTNIbSTjTFZohHq7" # key ! change when security will be set up
 
     # topic is where to publish
-    def __init__(self, topic, client_name,id):
-        self.id = id
+    def __init__(self, topic, client_name):
         self.topic = topic # TODO: specify the topic to which publish
         self.client_name = client_name
         self.connected_flag = False
@@ -25,7 +25,8 @@ class MqttPublisher:
             print("Bad connection. Returned code=", rc)
 
     def connect(self):
-        self.client.username_pw_set(self.user, password=self.key)
+        # TODO : uncomment when security will be set up
+        #self.client.username_pw_set(self.user, password=self.key)
         self.client.connect(self.BROKER_HOST, port=self.PORT)
         self.client.loop_start()
 
@@ -33,9 +34,13 @@ class MqttPublisher:
             print("Waiting for connection")
             time.sleep(1)
 
-    def publish_measurement(self,measurement):
-        print(f"{self.topic}: {measurement}")
-        self.client.publish(self.topic, measurement, 0, True)
+    def publish_measurement(self,measurement,id):
+        # publish it like a json so i can identify the sensor
+        message = {"id": id, "measurement": measurement}
+        json_message = json.dumps(message)
+        
+        print(f"{self.topic}: {json_message}")
+        self.client.publish(self.topic, json_message, 0, True)
     
     def stop(self):
         self.client.loop_stop()    				
