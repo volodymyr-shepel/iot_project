@@ -56,7 +56,7 @@ class LedService:
     def blink_led(self,msg):
         payload = msg.payload.decode("utf-8")
 
-        if payload == 1: # open the door
+        if payload == 'True': # open the door
             self.lightStrip(self.success_color)
         else:
             self.lightStrip(self.fail_color)

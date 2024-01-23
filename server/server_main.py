@@ -11,13 +11,12 @@ def main():
 
     access_checker = server_mqtt_service.AccessChecker()
         # used to accept the result from server
-    sebsors_subscriber = MqttSubscriber("sensors","server_subscriber",access_checker.check_access)
-    sebsors_subscriber.connect()
+    sensors_subscriber = MqttSubscriber("sensors","server_subscriber",access_checker.check_access)
+    sensors_subscriber.connect()
 
     try:
         while True:
-            rfid_card_service_room_1.read_card()
-            time.sleep(0.5)
+            pass
            
     except KeyboardInterrupt:
         print ('\r\ntraceback.format_exc():\n%s' % traceback.format_exc())
