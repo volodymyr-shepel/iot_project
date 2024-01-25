@@ -1,3 +1,5 @@
+from email import message
+import json
 import board
 import neopixel 
 import time
@@ -55,8 +57,10 @@ class LedService:
 
     def blink_led(self,msg):
         payload = msg.payload.decode("utf-8")
-
-        if payload == 'True': # open the door
+        message = json.loads(payload)
+        result = message.get("measurement")
+    
+        if result == True: # open the door
             self.lightStrip(self.success_color)
         else:
             self.lightStrip(self.fail_color)
