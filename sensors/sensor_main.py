@@ -15,9 +15,8 @@ custom_led_service = led_service.LedService()
 
 def main():
 
-    BROKER_HOST="10.108.33.121" # address of server raspberry pi					
-    PORT=1883
-    mqtt_client = MqttClient("sensors", "ROOM1", "room_handler", custom_led_service.blink_led)
+    
+    mqtt_client = MqttClient("sensors", "rooms/1", "room_handler", custom_led_service.blink_led)
     mqtt_client.connect()
 
     # specifies where to publish

@@ -10,7 +10,6 @@ class MqttClient:
 
     def __init__(self, topic_pub, topic_sub, client_name, on_receive_message):
         self.topic_pub = topic_pub # TODO: specify the topic to which publish
-        
         self.topic_sub = topic_sub # TODO: specify the topic to which publish
         self.client_name = client_name
         self.connected_flag = False
