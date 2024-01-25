@@ -8,7 +8,8 @@ class AccessChecker:
     def check_access(self, message):
         try:
             # Extract information from the message
-            message_data = json.loads(message)
+            print(message)
+            message_data = message#json.loads(message)
             user_id = message_data.get("measurement")  # Assuming measurement is now the card_id (user_id)
             room_id = message_data.get("id")  # Assuming id is now the room_id
 
@@ -25,7 +26,7 @@ class AccessChecker:
             ''', (user_id, room_id))
 
             result = cursor.fetchone()
-
+            print(result)
             # Close the database connection
             conn.close()
 
