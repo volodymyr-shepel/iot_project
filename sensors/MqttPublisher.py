@@ -4,17 +4,17 @@ import time
 
 class MqttPublisher:
 
-    BROKER_HOST="io.adafruit.com" # ip address of another raspberry pi				
+    BROKER_HOST="10.108.33.121" # ip address of another raspberry pi				
     PORT=1883
     #user="r0gue" # user  ! change when security will be set up
     #key="aio_DwSR74zv1N0QoTNIbSTjTFZohHq7" # key ! change when security will be set up
 
     # topic is where to publish
-    def __init__(self, topic, client_name):
+    def __init__(self, topic, client_name,client):
         self.topic = topic # TODO: specify the topic to which publish
         self.client_name = client_name
         self.connected_flag = False
-        self.client = mqtt.Client(client_name)
+        self.client = client
         self.client.on_connect = self.on_connect
 
     def on_connect(self, client, userdata, flags, rc):
@@ -37,6 +37,7 @@ class MqttPublisher:
     def publish_measurement(self,measurement,id):
         # publish it like a json so i can identify the sensor
         message = {"id": id, "measurement": measurement}
+        print(message)
         json_message = json.dumps(message)
         
         print(f"{self.topic}: {json_message}")

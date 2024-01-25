@@ -91,7 +91,7 @@ class MFRC522Reader:
 
             # used to publish the id of the card to message queue(sent to brocker)
             # formatted_uid represents the measurement
-            self.mqtt_publisher.publish_measurement(measurement = formatted_uid,id = id)
+            self.mqtt_publisher.publish_measurement(measurement = formatted_uid,id = self.id)
             
             # This is the default key for authentication
             #key = [0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]

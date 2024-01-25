@@ -3,16 +3,16 @@ from datetime import datetime
 
 class MqttSubscriber:
 
-    BROKER_HOST="io.adafruit.com" # address of server raspberry pi					
+    BROKER_HOST="10.108.33.121" # address of server raspberry pi					
     PORT=1883
     #USER="r0gue" # user ! change when security will be set up
     #KEY="aio_DwSR74zv1N0QoTNIbSTjTFZohHq7" # key ! change when security will be set up
 
     # on_receive message is a method which will be invoked when the message is received
-    def __init__(self, topic, client_name,on_receive_message):
+    def __init__(self, topic, client_name, on_receive_message,client):
         self.topic = topic # TODO: change topic accordingly
         self.client_name = client_name
-        self.client = mqtt.Client(client_name)
+        self.client = client
         self.client.on_message = self.on_message
         self.client.on_connect = self.on_connect
         self.on_receive_message = on_receive_message
@@ -27,9 +27,6 @@ class MqttSubscriber:
     
     def on_connect(self,client, userdata, flags, rc):		# function called on connected
         if rc==0:
-            client.connected_flag=True 			# set flag
-            print("Connected OK")
-            client.subscribe(f"{self.USER}/errors", qos=0)
             client.subscribe(self.topic, qos=0)
         else:
             print("Bad connection Returned code=",rc)

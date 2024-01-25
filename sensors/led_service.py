@@ -1,6 +1,6 @@
 import board
 import neopixel 
-
+import time
 
 #Msg received 13:55:30.461652, topic: r0gue/feeds/LEDBTN1 value: ON
 #Msg received 13:55:43.324076, topic: r0gue/feeds/LED1 value: #ffffff
@@ -48,7 +48,7 @@ class LedService:
     def lightStrip(self,color):
         self.ledStrip.fill(color)
         self.ledStrip.show()
-        self.time.sleep(2)
+        time.sleep(2)
         self.ledStrip.fill((0,0,0))
         self.ledStrip.show()
     
