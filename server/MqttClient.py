@@ -8,7 +8,7 @@ class MqttClient:
     
     publishers = {}
     BROKER_HOST="10.108.33.121" # address of server raspberry pi					
-    PORT=1883
+    PORT=8883
 
     def __init__(self, topic_pub, topic_sub, client_name, on_receive_message):
         self.topic_pub = topic_pub # TODO: specify the topic to which publish
@@ -17,6 +17,9 @@ class MqttClient:
         self.client_name = client_name
         self.connected_flag = False
         self.client = mqtt.Client(client_name)
+        self.client.tls_set(ca_certs="../certs/ca.crt",
+               cert_reqs=mqtt.ssl.CERT_NONE,
+               tls_version=mqtt.ssl.PROTOCOL_TLSv1_2)
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
         self.on_receive_message = on_receive_message
